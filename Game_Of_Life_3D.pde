@@ -6,19 +6,19 @@
  * Conway's Game of Life in 3D *
  *******************************/
 
-final int WIDTH = 5000;
-final int HEIGHT = 5000;
-final int DEPTH = 5000;
+final int WIDTH = 500;
+final int HEIGHT = 500;
+final int DEPTH = 500;
 
 final int VIEW_WIDTH = 1000;
 final int VIEW_HEIGHT = 700;
 
-final int CELL_SIZE = 5;
+final int CELL_SIZE = 10;
 
 final int BACKGROUND_BRIGHTNESS = 20;
 final int ALIVE_CELL_BRIGHTNESS = 200;
 
-final int MAJOR_GRID_BRIGHTNESS = 100;
+final int MAJORa_GRID_BRIGHTNESS = 100;
 final int MINOR_GRID_BRIGHTNESS = 75;
 
 final int RANDOMIZE_PERCENTAGE = 10;
@@ -29,7 +29,7 @@ final int[] STAY_ALIVE_RULES = {3, 4, 5};
 final int[] BIRTH_RULES = {3};
 
 final float ZOOM_SENSITIVITY = 0.5;
-final float TRANSLATE_SENSITIVITY = 20;
+final float TRANSLATE_SENSITIVITY = 5;
 
 int[][][] grid;
 boolean paused;
@@ -63,15 +63,15 @@ void keyPressed() {
   if (key == 'r') { paused = true; randomizeGrid(); }
   if (keyCode == ENTER) changeZoom(ZOOM_SENSITIVITY);
   if (keyCode == SHIFT) changeZoom(-1 * ZOOM_SENSITIVITY);
-  if (keyCode == 'a') tx += TRANSLATE_SENSITIVITY;
-  if (keyCode == 'd') tx -= TRANSLATE_SENSITIVITY;
-  if (keyCode == 'w') ty += TRANSLATE_SENSITIVITY;
-  if (keyCode == 's') ty -= TRANSLATE_SENSITIVITY;
-  if (keyCode == 'q') tz += TRANSLATE_SENSITIVITY;
-  if (keyCode == 'e') tz -= TRANSLATE_SENSITIVITY;
-  zoom = constrain(zoom, ZOOM_SENSITIVITY, 10);
-  tx = constrain(tx, -1 * (WIDTH - (2 * VIEW_WIDTH)) - 100, 20);
-  ty = constrain(ty, -1 * (HEIGHT - (2 * VIEW_HEIGHT)) - 100, 20);
+  if (key == 'a') tx += TRANSLATE_SENSITIVITY;
+  if (key == 'd') tx -= TRANSLATE_SENSITIVITY;
+  if (key == 'w') ty += TRANSLATE_SENSITIVITY;
+  if (key == 's') ty -= TRANSLATE_SENSITIVITY;
+  if (key == 'q') tz += TRANSLATE_SENSITIVITY;
+  if (key == 'e') tz -= TRANSLATE_SENSITIVITY;
+  //zoom = constrain(zoom, ZOOM_SENSITIVITY, 10);
+  //tx = constrain(tx, -1 * (WIDTH - (2 * VIEW_WIDTH)) - 100, 20);
+  //ty = constrain(ty, -1 * (HEIGHT - (2 * VIEW_HEIGHT)) - 100, 20);
   println(" => Tx: " + tx + " , Ty: " + ty + " , Tz: " + tz);
 }
 
@@ -149,7 +149,7 @@ void changeZoom(float dZoom) {
   float newWidth = VIEW_WIDTH / zoom / 2.0;
   float newHeight = VIEW_HEIGHT / zoom / 2.0;
   tx = tx + newWidth - originalWidth;
-  ty = ty + newheight - originalHeight;
+  ty = ty + newHeight - originalHeight;
   print("W: " + originalWidth + " , w: " + newWidth);
   print(" , H: " + originalHeight + " , h: " + newHeight);
 }
@@ -180,7 +180,7 @@ int getNeighbors(int x, int y, int z) {
   int neighbors = 0;
   for (int i = x-1; i <= x+1; i++) {
     for (int j = y-1; j <= y+1; j++) {
-      for (int k = z-1; z <= z+1; z++) {
+      for (int k = z-1; k <= z+1; k++) {
         if (i < 0 || i >= WIDTH/CELL_SIZE) continue;
         if (j < 0 || j >= HEIGHT/CELL_SIZE) continue;
         if (k < 0 || k >= DEPTH/CELL_SIZE) continue;
