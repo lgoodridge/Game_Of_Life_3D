@@ -1,0 +1,5 @@
+TODO
+ - Find a more stable default rule set
+ - Make it prettier (fix grid line over-extension, add frequency 
+coloring option)
+ - Remove extranneous code
