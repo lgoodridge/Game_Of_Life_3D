@@ -29,10 +29,11 @@ ZOOM/TRANSLATE/ROTATE_SENSITIVITY : Determines sensitivity of respective control
 
 CONTROLS: 
 ‘p’ = pause, 
-‘r’ = randomize, 
+‘r’ = randomize,
+'l' = toggle grid lines, 
 ‘enter’ = zoom in, 
 ‘shift’ = zoom out, 
-arrow keys = move
+arrow keys = rotate
 
 —————————————————————————————————————————
 
