@@ -1,0 +1,47 @@
+Title: Game_Of_Life_3D.pde
+Author: Lance Goodridge
+Date Created: 10/30/14
+Description: Simulates Conway’s Game of Life ... IN 3D!!!
+
+_________________________________________
+
+Constants to be modified are listed at the beginning of the program:
+
+WIDTH, HEIGHT, DEPTH : Determines the size of the Conway Cube
+VIEW_WIDTH, VIEW_HEIGHT : Determines the size of the app window
+CELL_SIZE : Determines how big each cell is
+
+BACKGROUND_BRIGHTNESS : Determines how bright the background is
+ALIVE_CELL_BRIGHTNESS : Determines how bright the alive cells are
+MAJOR/MINOR_LINE_BRIGHTNESS : Determines how bright the grid lines are
+
+RANDOMIZE_PERCENTAGE : Determines what percentage of cells are alive at start
+
+UPDATE DELAY : Specifies how long to wait between grid updates.
+               (A delay of 0 is often too fast for the human eye to see)
+
+STAY_ALIVE_RULES : The number of allowed neighbors for a cell to remain alive
+BIRTH_RULES : The number of required neighbors for a cell to become alive
+
+ZOOM/TRANSLATE/ROTATE_SENSITIVITY : Determines sensitivity of respective control
+
+—————————————————————————————————————————
+
+CONTROLS: 
+‘p’ = pause, 
+‘r’ = randomize, 
+‘enter’ = zoom in, 
+‘shift’ = zoom out, 
+arrow keys = move
+
+—————————————————————————————————————————
+
+You can modify the ruleset to get different results.
+
+The most stable one I found is the default:
+final int[] STAY_ALIVE_RULES = {4, 5};
+final int[] BIRTH_RULES = {5};
+
+You are able to see the standard 3D repeaters here, and if you're lucky you may even get a glider (which are mad cool in three dimensions).
+
+I haven't looked into finding better rulesets yet. See if you can find something more interesting!
