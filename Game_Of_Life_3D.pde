@@ -25,8 +25,8 @@ final int RANDOMIZE_PERCENTAGE = 10;
 
 final int DELAY = 0;
 
-final int[] STAY_ALIVE_RULES = {3, 4, 5};
-final int[] BIRTH_RULES = {3};
+final int[] STAY_ALIVE_RULES = {5, 6};
+final int[] BIRTH_RULES = {5};
 
 final float ZOOM_SENSITIVITY = 0.2;
 final float TRANSLATE_SENSITIVITY = 25;
@@ -40,18 +40,16 @@ final float ROTATE_SENSITIVITY = PI/8;
 
 int[][][] grid;
 boolean paused;
+boolean linesOn;
 float zoom;
-float tx, ty, tz;
 float rx, ry, rz;
 
 void setup() {
   size(VIEW_WIDTH, VIEW_HEIGHT, P3D);
   grid = new int[WIDTH/CELL_SIZE][HEIGHT/CELL_SIZE][DEPTH/CELL_SIZE];
   paused = false;
+  linesOn = false;
   zoom = 1;
-  tx = 0;
-  ty = 0;
-  tz = 0;
   rx = 0;
   ry = 0;
   rz = 0;
@@ -62,31 +60,21 @@ void draw() {
   if (!paused) updateGrid();
   background(BACKGROUND_BRIGHTNESS);
   updateView();
-  translate(tx, ty, tz);
-  drawGridLines();
+  if (linesOn) drawGridLines();
   drawGrid();
   delay(DELAY);
 }
 
 void keyPressed() {
+  if (key == 'l') linesOn = !linesOn;
   if (key == 'p') paused = !paused;
   if (key == 'r') {paused = true; randomizeGrid();}
-  if (key == 'a') {tx += TRANSLATE_SENSITIVITY; print("Hey");}
-  if (key == 'd') tx -= TRANSLATE_SENSITIVITY;
-  if (key == 'w') ty += TRANSLATE_SENSITIVITY;
-  if (key == 's') ty -= TRANSLATE_SENSITIVITY;
-  if (key == 'q') tz += TRANSLATE_SENSITIVITY;
-  if (key == 'e') tz -= TRANSLATE_SENSITIVITY;
   if (keyCode == UP) rx -= ROTATE_SENSITIVITY;
   if (keyCode == DOWN) rx += ROTATE_SENSITIVITY;
   if (keyCode == LEFT) ry += ROTATE_SENSITIVITY;
   if (keyCode == RIGHT) ry -= ROTATE_SENSITIVITY;
   if (keyCode == ENTER) changeZoom(ZOOM_SENSITIVITY);
   if (keyCode == SHIFT) changeZoom(-1 * ZOOM_SENSITIVITY);
-  //zoom = constrain(zoom, ZOOM_SENSITIVITY, 10);
-  //tx = constrain(tx, -1 * (WIDTH - (2 * VIEW_WIDTH)) - 100, 20);
-  //ty = constrain(ty, -1 * (HEIGHT - (2 * VIEW_HEIGHT)) - 100, 20);
-  println(" => Tx: " + tx + " , Ty: " + ty + " , Tz: " + tz);
 }
 
 void updateGrid() {
@@ -163,15 +151,7 @@ void drawGrid() {
 
 void changeZoom(float dZoom) {
   if ((zoom + dZoom) <= 0 || (zoom + dZoom) >= 10) return;
-  float originalWidth = VIEW_WIDTH / zoom / 2.0;
-  float originalHeight = VIEW_HEIGHT / zoom / 2.0;
   zoom += dZoom;
-  float newWidth = VIEW_WIDTH / zoom / 2.0;
-  float newHeight = VIEW_HEIGHT / zoom / 2.0;
-  //tx = tx + newWidth - originalWidth;
-  //ty = ty + newHeight - originalHeight;
-  print("W: " + originalWidth + " , w: " + newWidth);
-  print(" , H: " + originalHeight + " , h: " + newHeight);
 }
 
 void randomizeGrid() {
