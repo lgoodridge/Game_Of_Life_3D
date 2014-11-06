@@ -18,14 +18,14 @@ final int CELL_SIZE = 10;
 final int BACKGROUND_BRIGHTNESS = 20;
 final int ALIVE_CELL_BRIGHTNESS = 200;
 
-final int MAJOR_GRID_BRIGHTNESS = 100;
-final int MINOR_GRID_BRIGHTNESS = 75;
+final int MAJOR_LINE_BRIGHTNESS = 100;
+final int MINOR_LINE_BRIGHTNESS = 75;
 
 final int RANDOMIZE_PERCENTAGE = 10;
 
-final int DELAY = 0;
+final int UPDATE_DELAY = 100;
 
-final int[] STAY_ALIVE_RULES = {5, 6};
+final int[] STAY_ALIVE_RULES = {4, 5};
 final int[] BIRTH_RULES = {5};
 
 final float ZOOM_SENSITIVITY = 0.2;
@@ -43,26 +43,34 @@ boolean paused;
 boolean linesOn;
 float zoom;
 float rx, ry, rz;
+long updateClock;
+long lastUpdate;
 
 void setup() {
   size(VIEW_WIDTH, VIEW_HEIGHT, P3D);
   grid = new int[WIDTH/CELL_SIZE][HEIGHT/CELL_SIZE][DEPTH/CELL_SIZE];
   paused = false;
   linesOn = false;
-  zoom = 1;
+  zoom = 0.75;
   rx = 0;
   ry = 0;
   rz = 0;
+  updateClock = 0;
+  lastUpdate = 0;
   randomizeGrid();
 }
 
 void draw() {
-  if (!paused) updateGrid();
   background(BACKGROUND_BRIGHTNESS);
+  updateClock += millis() - lastUpdate;
+  lastUpdate = millis();
+  if (!paused && updateClock > UPDATE_DELAY) {
+    updateGrid();
+    updateClock = 0;
+  }
   updateView();
-  if (linesOn) drawGridLines();
   drawGrid();
-  delay(DELAY);
+  if (linesOn) drawGridLines();
 }
 
 void keyPressed() {
@@ -140,7 +148,9 @@ void drawGrid() {
       for (int k = 0; k < DEPTH/CELL_SIZE; k++) {
         if (grid[i][j][k] == 1) {
           pushMatrix();
-          translate(i * CELL_SIZE - WIDTH/2, j * CELL_SIZE - HEIGHT/2, k * CELL_SIZE - DEPTH/2);
+          translate(i * CELL_SIZE - WIDTH/2 + CELL_SIZE/2, 
+                    j * CELL_SIZE - HEIGHT/2 + CELL_SIZE/2, 
+                    k * CELL_SIZE - DEPTH/2 + CELL_SIZE/2);
           box(CELL_SIZE);
           popMatrix();
         }
